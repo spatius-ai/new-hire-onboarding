@@ -39,6 +39,7 @@ new-hire-onboarding/
   .dev.vars.example         secrets for Cloudflare
   server/
     brain.mjs               the guide itself: sections, answers with checked quotes, who to ask, "done"
+    voices.mjs              optional ElevenLabs voices, one per person (used when ELEVENLABS_API_KEY is set)
     app.mjs                 the API: session token, hearing, answers, voice (uses brain.mjs)
     node.mjs                runs the app on your computer
     worker.mjs              runs the app on Cloudflare Workers
@@ -134,6 +135,7 @@ The page calls `/api/...` and loads `/assets/...` on the same address as the pag
 | `SPATIUS_APP_ID` | Yes | Your Spatius App ID |
 | `SPATIUS_REGION` | No | `us-west` (default) or your region |
 | `OPENAI_API_KEY` | No | Your OpenAI key; without it, starter minutes are used |
+| `ELEVENLABS_API_KEY` | No | ElevenLabs voices: each person has their own voice, and a native voice for Arabic. Without it, the OpenAI voice is used, and it is also used if ElevenLabs refuses a request. Model: `ELEVENLABS_MODEL` (default `eleven_v4_turbo`) |
 | `OPENAI_BASE_URL` | No | Another OpenAI-compatible address for your own key. Your OpenAI key is never sent to the starter service. |
 | `SPATIUS_STARTER_URL` | No | Another starter service address (for testing) |
 | `ONBOARDING_LANG` | No | Starting language: `en`, `es`, `zh`, `ar` or `fr` |
