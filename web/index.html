@@ -73,30 +73,28 @@
         <div class="subs" aria-live="polite"><span class="who" id="who">Sofia · Onboarding guide</span><span class="line" dir="auto" id="said">Press Start, then ask anything about your first week.</span></div>
       </div>
       <div class="panel" aria-label="Where the answer comes from">
+        <div class="people" aria-live="polite">
+          <span class="k">Your people <button class="info-btn" type="button" aria-expanded="false" aria-controls="i-who" aria-label="About Who do I ask"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></button></span>
+          <div class="info-box hp-type-card-copy" id="i-who" hidden style="margin:0">
+            <p><b>Who do I ask?</b> When the answer is someone's job, or the handbook does not say, Sofia picks the right colleague from your people list, and their face lights up here.</p>
+          </div>
+          <div class="faces" id="faces"></div>
+          <div class="who-card" id="whoCard" hidden><span class="ask" id="whoAsk" dir="auto"></span><a class="btn hp-type-action" id="pBtn" href="#" target="_blank" rel="noopener">Message ↗</a></div>
+        </div>
         <div><span class="k">Try asking</span><div class="tries" id="tries"></div></div>
         <div class="source" id="source" hidden>
           <div class="head"><span class="tag" id="srcTag">From the handbook</span><span class="title" id="srcTitle"></span></div>
           <p id="srcText" dir="auto"></p>
         </div>
-        <div class="person" id="person" hidden aria-live="polite">
-          <span class="k">Who do I ask? <button class="info-btn" type="button" aria-expanded="false" aria-controls="i-who" aria-label="About Who do I ask" style="color:inherit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></button></span>
-          <span class="ph" id="pPh"></span>
-          <b id="pName"></b>
-          <span class="about" id="pAbout"></span>
-          <a class="btn hp-type-action" id="pBtn" href="#" target="_blank" rel="noopener">Send a message ↗</a>
-        </div>
-        <div class="info-box hp-type-card-copy" id="i-who" hidden style="margin:0">
-          <p><b>Who do I ask?</b> When the answer is someone's job, or the handbook does not say, the guide picks the right colleague from your people list.</p>
-        </div>
-        <div class="checklist">
-          <div class="top"><span class="k">Your first week</span><span class="count" id="ckCount"></span></div>
-          <ol id="ckList"></ol>
-          <button class="btn btn-secondary hp-type-action" id="walk" type="button">Walk me through my first week</button>
-        </div>
       </div>
       <div class="score" id="score" role="dialog" aria-labelledby="scoreTitle">
         <div class="box" id="scoreBox"></div>
       </div>
+    </div>
+
+    <div class="week" aria-label="Your first week">
+      <div class="week-head"><span class="k hp-type-mono">Your first week</span><span class="count" id="ckCount"></span><button class="btn btn-secondary hp-type-action" id="walk" type="button">Walk me through my first week</button></div>
+      <ol class="days" id="ckList"></ol>
     </div>
 
     <form class="dock" id="ask">

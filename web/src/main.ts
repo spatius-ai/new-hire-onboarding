@@ -105,22 +105,38 @@ function showSource(a: Answer) {
   const box = $('#source'); box.hidden = false;
   const tag = $('#srcTag'); tag.textContent = a.found ? 'From the handbook' : 'Not in the handbook'; tag.classList.toggle('no', !a.found);
   $('#srcTitle').textContent = a.found ? a.title : '';
-  $('#srcText').innerHTML = a.found ? highlight(a.text, a.quote) : 'The guide does not guess. Ask the person below.';
+  $('#srcText').innerHTML = a.found ? highlight(a.text, a.quote) : 'The guide does not guess. Ask the person she named, above.';
 }
+/** The people row, from the people list as text (the sample has an id and a photo; your own lines are name | role | about | contact). */
+type Face = { id: string; name: string; role: string; photo: string };
+function facesOf(text: string): Face[] {
+  return text.split('\n').map((l) => l.split('|').map((x) => x.trim())).filter((p) => p.length >= 3 && p[0]).slice(0, 8)
+    .map((p) => (p.length >= 6 ? { id: p[0], name: p[1], role: p[2], photo: p[5] } : { id: p[0].toLowerCase(), name: p[0], role: p[1], photo: '' }));
+}
+function showFaces(lit = '') {
+  const list = facesOf(st.people);
+  $('#faces').classList.toggle('lit', !!lit);
+  $('#faces').innerHTML = list.map((f) => `<div class="face${f.name === lit ? ' on' : ''}"><span class="ph">${f.photo ? `<img src="${esc(f.photo)}" alt="">` : esc(f.name.slice(0, 1).toUpperCase())}</span><b>${esc(f.name)}</b><small>${esc(f.role)}</small></div>`).join('');
+}
+/** Who do I ask?: the colleague Sofia names lights up in the row, with what to ask and a message button. */
 function showPerson(w: Who | null, why = '') {
-  const box = $('#person'); if (!w) { box.hidden = true; return; }
-  box.hidden = false;
-  $('#pPh').innerHTML = w.photo ? `<img src="${esc(w.photo)}" alt="">` : esc(w.name.slice(0, 1).toUpperCase());
-  $('#pName').textContent = `${w.name} · ${w.role}`;
-  $('#pAbout').textContent = why ? `Ask ${w.name} ${why}` : `Ask about: ${w.about}`;
+  showFaces(w?.name || '');
+  const card = $('#whoCard'); if (!w) { card.hidden = true; return; }
+  card.hidden = false;
+  $('#whoAsk').textContent = why ? `Ask ${w.name} ${why}` : `Ask ${w.name} about: ${w.about}`;
   const btn = $<HTMLAnchorElement>('#pBtn'); btn.textContent = `Message ${w.name} ↗`;
   if (w.contact) { btn.href = w.contact; btn.removeAttribute('aria-disabled'); } else { btn.removeAttribute('href'); btn.setAttribute('aria-disabled', 'true'); }
   st.met.set(w.name, w);
 }
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+/** Your first week: one task a day, Monday to Friday (more than five tasks share Friday). */
 function showChecklist() {
   const done = st.items.filter((i) => i.done).length;
-  $('#ckCount').textContent = `${done} of ${st.items.length} done`;
-  $('#ckList').innerHTML = st.items.map((it, k) => `<li class="${it.done ? 'done' : ''}${k === st.walking ? ' now' : ''}"><label><input type="checkbox" data-k="${k}" ${it.done ? 'checked' : ''}><span dir="auto">${esc(it.text)}</span></label></li>`).join('');
+  $('#ckCount').textContent = st.items.length ? `${done} of ${st.items.length} done` : '';
+  const byDay: number[][] = DAYS.map(() => []);
+  st.items.forEach((_, k) => byDay[Math.min(k, 4)].push(k));
+  $('#ckList').innerHTML = byDay.map((ks, d) => ks.map((k) => { const it = st.items[k];
+    return `<li class="day${it.done ? ' done' : ''}${k === st.walking ? ' now' : ''}"><label><span class="dn">${DAYS[d]}<input type="checkbox" data-k="${k}" ${it.done ? 'checked' : ''} aria-label="${esc(it.text)}"></span><span class="tk" dir="auto">${esc(it.text)}</span></label></li>`; }).join('')).join('');
   $('#walk').textContent = st.walking >= 0 ? 'Done, next task' : done === st.items.length && st.items.length ? 'All done' : 'Walk me through my first week';
   ($('#walk') as HTMLButtonElement).disabled = !st.items.length || (done === st.items.length && st.walking < 0);
 }
@@ -136,7 +152,7 @@ async function ask(question: string, step = ''): Promise<Answer> {
 async function start() {
   if (st.busy) return;
   hush(); st.busy = true; st.history = []; st.met.clear(); st.asked = 0; st.walking = -1; void getSeat();
-  $('#score').classList.remove('on'); $('#source').hidden = true; $('#person').hidden = true; showChecklist();
+  $('#score').classList.remove('on'); $('#source').hidden = true; showPerson(null); showChecklist();
   stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
   st.live = true; stage.classList.add('oncall'); window.clearInterval(clockT);
   if (st.sessionSeconds) { st.ends = Date.now() + st.sessionSeconds * 1000; clockT = window.setInterval(() => { const left = Math.max(0, Math.round((st.ends - Date.now()) / 1000)); clock(left); if (!left) void end(); }, 500); }
@@ -273,8 +289,8 @@ const withPhotos = (typed: string, sample: string) => {
   const known = new Map(sample.split('\n').map((l) => l.split('|').map((x) => x.trim())).map((p) => [p[1].toLowerCase(), p]));
   return typed.split('\n').map((l) => { const p = l.split('|').map((x) => x.trim()); const k = known.get((p[0] || '').toLowerCase()); return p.length === 4 && k ? [k[0], ...p, k[5]].join(' | ') : l; }).join('\n');
 };
-$('#pplText').addEventListener('change', () => { const v = $<HTMLTextAreaElement>('#pplText').value.trim(); st.people = v ? withPhotos(v, cfg?.samplePeople || '') : cfg?.samplePeople || ''; track('people_edit'); });
-$('#pplReset').onclick = () => { $<HTMLTextAreaElement>('#pplText').value = PEOPLE_HELP(cfg?.samplePeople || ''); st.people = cfg?.samplePeople || ''; };
+$('#pplText').addEventListener('change', () => { const v = $<HTMLTextAreaElement>('#pplText').value.trim(); st.people = v ? withPhotos(v, cfg?.samplePeople || '') : cfg?.samplePeople || ''; showFaces(); track('people_edit'); });
+$('#pplReset').onclick = () => { $<HTMLTextAreaElement>('#pplText').value = PEOPLE_HELP(cfg?.samplePeople || ''); st.people = cfg?.samplePeople || ''; showFaces(); };
 $('#ckText').addEventListener('change', () => useChecklist($<HTMLTextAreaElement>('#ckText').value || cfg?.sampleChecklist || ''));
 $('#ckReset').onclick = () => { $<HTMLTextAreaElement>('#ckText').value = cfg?.sampleChecklist || ''; useChecklist(cfg?.sampleChecklist || ''); };
 $('#langs').addEventListener('click', (e) => {
@@ -300,7 +316,7 @@ fetch('api/config').then((r) => r.json()).then(async (c) => {
   const q = new URLSearchParams(location.search).get('lang');
   const lang = (q && /^(en|es|zh|ar|fr)$/.test(q) ? q : c.choices?.lang) || 'en';
   if (lang !== 'en') document.querySelector<HTMLButtonElement>(`#langs [data-lang="${lang}"]`)?.click();
-  st.people = c.people || c.samplePeople; $<HTMLTextAreaElement>('#pplText').value = c.people || PEOPLE_HELP(c.samplePeople);
+  st.people = c.people || c.samplePeople; $<HTMLTextAreaElement>('#pplText').value = c.people || PEOPLE_HELP(c.samplePeople); showFaces();
   $<HTMLTextAreaElement>('#ckText').value = c.checklist || c.sampleChecklist; useChecklist(c.checklist || c.sampleChecklist);
   if (c.handbook) $<HTMLTextAreaElement>('#hbText').value = c.handbook;
   useHandbook(c.handbook || c.sampleHandbook);

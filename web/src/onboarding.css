@@ -180,3 +180,35 @@
   .recap li a { margin-left: auto; color: var(--lab-accent); font-weight: 600; text-decoration: none; }
   /* the welcome desk sits high in the photo: show the photo 125% tall from the top, so the desk edge lands at about 76% and the guide's shoulders show */
   .call img.bg, .call img.front { inset: 0 0 auto 0; height: 125%; object-position: 50% 0%; }
+  /* ---------- your people: a permanent row of faces; the one Sofia names lights up ---------- */
+  .people { display: grid; gap: 10px; }
+  .faces { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 8px; }
+  .face { display: grid; justify-items: center; gap: 4px; padding: 8px 4px 6px; border-radius: 12px; text-align: center; transition: background 300ms, transform 400ms cubic-bezier(.22,1,.36,1); }
+  .face .ph { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: var(--lab-soft); display: grid; place-items: center; font: 600 17px/1 var(--hp-font-sans); color: var(--lab-accent); box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--line); transition: box-shadow 300ms; }
+  .face .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .face b { font: 600 12px/1.2 var(--hp-font-sans); color: var(--lab-text); }
+  .face small { font: 400 11px/1.2 var(--hp-font-sans); color: var(--lab-muted); }
+  .faces.lit .face:not(.on) { opacity: .5; }
+  .face.on { background: var(--lab-soft); transform: translateY(-2px); }
+  .face.on .ph { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--lab-accent), 0 8px 18px -6px rgb(99 99 167 / .6); }
+  .who-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: #1E1B2B; color: #E9E6F7; animation: pop 450ms cubic-bezier(.22,1,.36,1); flex-wrap: wrap; }
+  .who-card[hidden] { display: none; }
+  .who-card .ask { flex: 1; min-width: 140px; font: 500 13px/1.4 var(--hp-font-sans); }
+  .who-card .btn { height: 32px; padding: 0 12px; font-size: 13px; background: #fff; color: var(--lab-text); }
+  .who-card .btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+  /* ---------- your first week: Monday to Friday under the guide ---------- */
+  .week { padding: 12px 14px 14px; border-top: 1px solid var(--line); display: grid; gap: 10px; background: var(--lab-surface-2, #FAFAFC); }
+  .week-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .week-head .k { color: var(--lab-muted); text-transform: uppercase; }
+  .week-head .count { font: 600 12px/1 var(--hp-font-sans); color: var(--lab-muted); }
+  .week-head .btn { margin-left: auto; height: 34px; padding: 0 14px; font-size: 14px; }
+  .days { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .day label { height: 100%; display: grid; align-content: start; gap: 6px; padding: 10px 12px 12px; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px var(--line); cursor: pointer; transition: background 300ms, box-shadow 300ms; }
+  .day .dn { display: flex; align-items: center; justify-content: space-between; font: 500 10px/1 var(--hp-font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--lab-muted); }
+  .day input { width: 16px; height: 16px; accent-color: var(--good); margin: 0; }
+  .day .tk { font: 500 13px/1.35 var(--hp-font-sans); color: var(--lab-text); }
+  .day.now label { background: var(--lab-soft); box-shadow: inset 0 0 0 1.5px var(--lab-accent); }
+  .day.done label { background: #E8F5EE; box-shadow: inset 0 0 0 1px rgb(47 143 99 / .25); }
+  .day.done .tk { color: #18452F; text-decoration: line-through; text-decoration-color: rgb(47 143 99 / .5); }
+  .day.done .dn { color: var(--good); }
+  @container (max-width: 720px) { .days { grid-template-columns: 1fr; } .day label { grid-template-columns: 56px 1fr; align-items: center; } .week-head .btn { margin-left: 0; } }
