@@ -212,3 +212,64 @@
   .day.done .tk { color: #18452F; text-decoration: line-through; text-decoration-color: rgb(47 143 99 / .5); }
   .day.done .dn { color: var(--good); }
   @container (max-width: 720px) { .days { grid-template-columns: 1fr; } .day label { grid-template-columns: 56px 1fr; align-items: center; } .week-head .btn { margin-left: 0; } }
+  /* ---------- mood: fresh and green, like the plants in her office ---------- */
+  .panel { background: #F4F9F5; }
+  .panel .k { color: #5E7A68; }
+  .tries button { background: #E2F1E6; color: #2F6B47; } .tries button:hover { background: #D5EBDB; }
+  .face.on { background: #E2F1E6; }
+  .face.on .ph { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3FA06A, 0 8px 18px -6px rgb(63 160 106 / .55); }
+  .who-card { background: #1F3A2B; color: #E6F4EA; }
+  .source { box-shadow: inset 0 0 0 1px #DCEBE0; }
+  .week { background: #F4F9F5; border-top-color: #DCEBE0; }
+  .week-head .k { color: #5E7A68; }
+  .day label { box-shadow: inset 0 0 0 1px #DCEBE0; }
+  .day.now label { background: #E2F1E6; box-shadow: inset 0 0 0 1.5px #3FA06A; }
+  /* =========================================================================================
+     A first-week portal: the week as a timeline on the left, Sofia in a portrait in the middle,
+     and the handbook as a real page on the right, opened at the section the answer comes from.
+     ========================================================================================= */
+  .stage.portal { display: grid; grid-template-columns: 210px minmax(0, .82fr) minmax(0, 1.18fr); gap: 16px; padding: 16px; background: #EEF6F0; align-items: start; }
+  .portal .k { font: 500 10px/1.2 var(--hp-font-mono); letter-spacing: .1em; text-transform: uppercase; color: #5E7A68; display: flex; align-items: center; gap: 6px; }
+  /* the week */
+  .rail { background: #fff; border-radius: 16px; padding: 16px 14px; display: grid; gap: 10px; align-content: start; box-shadow: 0 1px 0 #DCEBE0; }
+  .rail .count { font: 600 12px/1 var(--hp-font-sans); color: #5E7A68; }
+  .rail .days { display: grid; grid-template-columns: 1fr; gap: 0; position: relative; }
+  .rail .days::before { content: ""; position: absolute; left: 11px; top: 14px; bottom: 14px; width: 2px; background: #DCEBE0; }
+  .rail .day label { position: relative; display: grid; grid-template-columns: 24px 1fr; gap: 2px 10px; padding: 8px 8px 10px 0; background: transparent; box-shadow: none; border-radius: 10px; }
+  .rail .day .dn { grid-column: 2; grid-row: 1; justify-content: flex-start; color: #5E7A68; padding-top: 4px; }
+  .rail .day input { grid-column: 1; grid-row: 1 / span 2; position: relative; z-index: 1; width: 22px; height: 22px; margin: 0; appearance: none; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 2px #C7DCCD; cursor: pointer; display: grid; place-items: center; }
+  .rail .day input:checked { background: #3FA06A; box-shadow: none; }
+  .rail .day input:checked::after { content: "✓"; color: #fff; font: 700 12px/1 var(--hp-font-sans); }
+  .rail .day .tk { grid-column: 2; font: 500 13px/1.35 var(--hp-font-sans); }
+  .rail .day.now label { background: #E2F1E6; box-shadow: none; }
+  .rail .day.now input { box-shadow: inset 0 0 0 2px #3FA06A, 0 0 0 4px rgb(63 160 106 / .2); }
+  .rail .day.done label { background: transparent; box-shadow: none; }
+  .rail .btn { height: 38px; padding: 0 12px; font-size: 13px; white-space: normal; line-height: 1.2; }
+  /* Sofia, in a portrait, with her words underneath */
+  .center { display: grid; gap: 10px; }
+  .portal .call { aspect-ratio: 4 / 5; border-radius: 18px; box-shadow: 0 18px 40px -20px rgb(20 60 35 / .5); }
+  .portal .call .avatar { width: 100%; }
+  .portal .call::after { height: 18%; }
+  .portal .caption { position: static; padding: 12px 14px; border-radius: 14px; background: #fff; color: var(--lab-text); box-shadow: 0 1px 0 #DCEBE0; display: grid; gap: 4px; min-height: 64px; }
+  .portal .caption .who { font: 500 10px/1 var(--hp-font-mono); letter-spacing: .1em; text-transform: uppercase; color: #5E7A68; opacity: 1; }
+  .portal .caption .line { font: 500 15px/1.5 var(--hp-font-sans); color: var(--lab-text); max-width: none; }
+  /* the handbook, as a page */
+  .doc { display: grid; gap: 14px; align-content: start; }
+  .doc .people { background: #fff; border-radius: 16px; padding: 14px; box-shadow: 0 1px 0 #DCEBE0; }
+  .hb-page { position: relative; background: #fff; border-radius: 6px 16px 16px 6px; padding: 18px 22px 22px 26px; min-height: 230px; box-shadow: 0 1px 0 #DCEBE0, 0 16px 30px -22px rgb(20 60 35 / .45); border-left: 6px solid #3FA06A; display: grid; gap: 10px; align-content: start; }
+  .hb-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid #E4EFE7; }
+  .hb-head .doc-name { font: 600 12px/1 var(--hp-font-sans); color: #2F6B47; }
+  .hb-empty { margin: 0; color: #6E8A78; font: 400 14px/1.6 var(--hp-font-sans); }
+  .hb-page:has(.source:not([hidden])) .hb-empty { display: none; }
+  .hb-page .source { box-shadow: none; background: transparent; padding: 0; gap: 10px; }
+  .hb-page .source .head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .hb-page .source .title { font: 600 20px/1.3 var(--hp-font-sans); color: #1E3A2A; }
+  .hb-page .source p { font: 400 15px/1.75 var(--hp-font-sans); color: #3D4A42; max-height: none; }
+  .hb-page .source mark { background: #FFF0A8; box-shadow: 0 0 0 3px #FFF0A8; }
+  .hb-page .tag.no { background: #FDF1DC; color: #7A4B0B; }
+  @container (max-width: 980px) { .stage.portal { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } .rail { grid-column: 1 / -1; grid-row: 2; } .rail .days { grid-template-columns: repeat(5, minmax(0, 1fr)); } .rail .days::before { display: none; } }
+  @container (max-width: 720px) {
+    .stage.portal { grid-template-columns: 1fr; padding: 10px; }
+    .rail { grid-row: auto; order: 3; } .center { order: 1; } .doc { order: 2; } .rail .days { grid-template-columns: 1fr; }
+    .portal .call { aspect-ratio: 4 / 4.2; }
+  }

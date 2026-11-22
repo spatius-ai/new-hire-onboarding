@@ -136,7 +136,7 @@ function showChecklist() {
   const byDay: number[][] = DAYS.map(() => []);
   st.items.forEach((_, k) => byDay[Math.min(k, 4)].push(k));
   $('#ckList').innerHTML = byDay.map((ks, d) => ks.map((k) => { const it = st.items[k];
-    return `<li class="day${it.done ? ' done' : ''}${k === st.walking ? ' now' : ''}"><label><span class="dn">${DAYS[d]}<input type="checkbox" data-k="${k}" ${it.done ? 'checked' : ''} aria-label="${esc(it.text)}"></span><span class="tk" dir="auto">${esc(it.text)}</span></label></li>`; }).join('')).join('');
+    return `<li class="day${it.done ? ' done' : ''}${k === st.walking ? ' now' : ''}"><label><input type="checkbox" data-k="${k}" ${it.done ? 'checked' : ''} aria-label="${esc(it.text)}"><span class="dn">${DAYS[d]}</span><span class="tk" dir="auto">${esc(it.text)}</span></label></li>`; }).join('')).join('');
   $('#walk').textContent = st.walking >= 0 ? 'Done, next task' : done === st.items.length && st.items.length ? 'All done' : 'Walk me through my first week';
   ($('#walk') as HTMLButtonElement).disabled = !st.items.length || (done === st.items.length && st.walking < 0);
 }
@@ -263,6 +263,7 @@ function useChecklist(text: string) { st.checklist = text; st.items = text.split
 function useHandbook(text: string, label = '') {
   st.handbook = text.trim().slice(0, 60000); st.own = !!st.handbook && st.handbook !== cfg?.sampleHandbook;
   st.company = st.own ? '' : cfg?.company || 'Tallyfield';
+  $('#docName').textContent = st.own ? 'Your handbook' : 'Tallyfield';
   $('#hbName').innerHTML = st.own ? `<b>Your handbook</b> · ${esc(label || `${st.handbook.length.toLocaleString()} characters`)}` : '<b>Tallyfield</b> · employee handbook (sample)';
   showTries(); track('handbook', { own: st.own });
 }
