@@ -1,0 +1,14 @@
+// Cloudflare Workers settings for New hire onboarding. Used by "Deploy to Cloudflare" and by `npm run deploy`.
+// Your own handbook, people and checklist can go in "vars" too (ONBOARDING_HANDBOOK, ONBOARDING_PEOPLE, ONBOARDING_CHECKLIST; write \\n for a new line).
+{
+  "name": "new-hire-onboarding",
+  "main": "server/worker.mjs",
+  "compatibility_date": "2025-09-01",
+  "assets": { "directory": "./dist", "binding": "ASSETS" },
+  "build": { "command": "npm run build" },
+  "vars": {
+    "SPATIUS_REGION": "us-west",
+    "ONBOARDING_LANG": "en",
+    "ONBOARDING_SECONDS": "180"
+  }
+}

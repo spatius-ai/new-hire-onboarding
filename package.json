@@ -1,0 +1,27 @@
+{
+  "name": "spatius-new-hire-onboarding",
+  "private": true,
+  "version": "0.1.0",
+  "description": "New hire onboarding: a live avatar guide that answers first-week questions from your handbook, shows the source, walks through a checklist and says who to ask. A Spatius template.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "start": "vite build --config vite.config.mjs --logLevel warn && node server/node.mjs",
+    "build": "vite build --config vite.config.mjs --logLevel warn",
+    "serve": "node server/node.mjs",
+    "dev:cf": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@spatius/avatarkit": "1.3.10",
+    "dotenv": "^16.4.0",
+    "vite": "^6.0.0",
+    "pdfjs-dist": "4.10.38"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
